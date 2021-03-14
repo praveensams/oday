@@ -1,0 +1,9 @@
+- hosts: "{{ server }}"
+  become: true
+  serial: 1
+
+  roles:
+    - role: "apache"
+      vars:
+        ports: 9090
+    - "nginx"

@@ -1,0 +1,4 @@
+- name: "installing vim packages"
+  package:
+    name: "vim"
+    state: "installed"

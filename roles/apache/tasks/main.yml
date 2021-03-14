@@ -1,0 +1,36 @@
+---
+# tasks file for apache
+- name:
+  disk:
+    host: "{{inventory_hostname}}"
+    location: "/,/home"
+  register: result
+
+- name: debugs
+  debug:
+    msg: "{{ result }}"
+  when: ( 'good' not in result)
+
+- name: installing packages
+  package:
+    name: ["httpd","httpd-tools"]
+    state: "installed"
+
+
+- name: copying the configuraiton file
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+
+
+- name: Enabling se linux
+  selinux:
+    state: disabled
+ 
+- name: restarting the service
+  service:
+    name: "httpd"
+    state: "restarted"
+
+- name: Importing yaml
+  import_tasks: sam.yaml

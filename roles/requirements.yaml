@@ -1,0 +1,5 @@
+---
+- name: apache
+  src: git+https://github.com/praveensams/apache-nginx
+  version: master
+

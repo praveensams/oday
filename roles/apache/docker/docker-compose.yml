@@ -1,0 +1,22 @@
+version: "3"
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: Dockerfile.centos
+    ports:
+      - "80:80"
+    volumes:
+      - "test:/mnt"
+    restart: always
+    healthcheck:
+      test: ["CMD", "ls", "/tmp/sam"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
+
+
+volumes:
+  test:

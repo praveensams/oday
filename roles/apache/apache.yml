@@ -1,0 +1,33 @@
+- hosts: dev
+  become: true
+
+  tasks:
+
+    - name: installing packages
+      package:
+        name: ["httpd","httpd-tools"]
+        state: "installed"
+
+    - name: Copying the configuration file 
+      template:
+        src: httpd.conf.j2
+        dest: /etc/httpd/conf/httpd.conf
+      notify: restarts
+
+    - name: restarting the service
+      service:
+        name: "httpd"
+        state: "started"
+
+    - name: Copying index html
+      copy:
+        content: |
+              Welcome to devops
+        dest: /var/www/html/index.html
+
+  handlers:
+    - name: restarts
+      service:
+        name: "httpd"
+        state: "restarted"
+
